@@ -42,6 +42,7 @@ $container[bhubr\MyProjects\Controller\SetupController::class] = function ($c) {
 };
 
 if( !file_exists('../app/bootstrap/db_settings.php') || array_key_exists('_doing_setup', $_SESSION) ) {
+    $_SESSION['_doing_setup'] = true;
     require '../app/routes/setup.php';
 }
 else {

@@ -1,12 +1,12 @@
 <?php
-if( file_exists('db_settings.php') ) {
+if( file_exists(__DIR__ . '/db_settings.php') ) {
     require 'db_settings.php';
 }
 else {
-    define('DB_HOST', 'dummy');
-    define('DB_NAME', 'dummy');
-    define('DB_USER', 'dummy');
-    define('DB_PASS', 'dummy');
+    define('DB_HOST', 'x');
+    define('DB_NAME', 'x');
+    define('DB_USER', 'x');
+    define('DB_PASS', 'x');
 }
 
 $container = $app->getContainer();

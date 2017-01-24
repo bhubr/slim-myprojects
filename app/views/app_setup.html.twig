@@ -27,34 +27,22 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="login-panel panel panel-default">
                 <div class="panel-body">
-                    <form action="/" method="POST" role="form" id="subscriptionForm">
+                    <form action="/app-setup" method="POST" role="form" id="subscriptionForm">
                         <input type="hidden" name="csrf_name" value="{{ csrfName }}">
                         <input type="hidden" name="csrf_value" value="{{ csrfValue }}">
 
                         <fieldset>
-                            <legend>Set up project</legend>
+                            <legend>Set up project step 2/2</legend>
                             <div class="col-md-12 form-group">
-                                <input class="form-control" placeholder="DB Name" name="db[name]" type="text" autofocus value="">
+                                <input class="form-control" placeholder="App Admin email" name="email" type="text" value="">
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <input class="form-control" placeholder="DB User" name="db[user]" type="text" autofocus value="">
+                                <input class="form-control" placeholder="App Admin password" name="password" type="password" value="">
                             </div>
 
                             <div class="col-md-12 form-group">
-                                <input class="form-control" placeholder="DB Password" name="db[pass]" type="password" value="">
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input class="form-control" placeholder="MySQL root Password" name="mysqlrootpass" type="password" value="">
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input class="form-control" placeholder="App Admin email" name="app[email]" type="text" value="">
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <input class="form-control" placeholder="App Admin password" name="app[password]" type="password" value="">
+                                <input class="form-control" placeholder="App Admin password confirmation" name="password_confirmation" type="password" value="">
                             </div>
 
                         </fieldset>

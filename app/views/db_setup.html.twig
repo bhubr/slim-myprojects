@@ -1,0 +1,62 @@
+{% extends "app.html.twig" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+      {% if flash('success') %}
+      <ul class="alert alert-success">
+        {% for msg in flash('success') %}
+        <li>{{ msg|raw }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if flash('error') %}
+      <ul class="alert alert-danger">
+        {% for msg in flash('error') %}
+        <li>{{ msg|raw }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      </div>
+    </div>
+
+    <section class="signup_form row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="login-panel panel panel-default">
+                <div class="panel-body">
+                    <form action="/db-setup" method="POST" role="form" id="subscriptionForm">
+                        <input type="hidden" name="csrf_name" value="{{ csrfName }}">
+                        <input type="hidden" name="csrf_value" value="{{ csrfValue }}">
+
+                        <fieldset>
+                            <legend>Set up project step 1/2</legend>
+                            <div class="col-md-12 form-group">
+                                <input class="form-control" placeholder="DB Name" name="db[name]" type="text" autofocus value="">
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <input class="form-control" placeholder="DB User" name="db[user]" type="text" autofocus value="">
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <input class="form-control" placeholder="DB Password" name="db[pass]" type="password" value="">
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <input class="form-control" placeholder="MySQL root Password" name="mysqlrootpass" type="password" value="">
+                            </div>
+
+                        </fieldset>
+
+                        <i class="divider"></i>
+                        <button class="btn btn-primary mbtn" style="margin-left: 15px;">Go</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
