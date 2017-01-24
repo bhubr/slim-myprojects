@@ -57,6 +57,11 @@ class AuthController
     private $service;
 
     /**
+     * Sentinel instance
+     */
+    private $sentinel;
+
+    /**
      * Constructor
      */
     public function __construct(

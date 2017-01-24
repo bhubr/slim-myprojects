@@ -31,7 +31,23 @@ $container[bhubr\MyProjects\Controller\AuthController::class] = function ($c) {
     return new bhubr\MyProjects\Controller\AuthController($csrf, $view, $logger, $emitter, $flash, $sentinel);
 };
 
-require '../app/routes/auth.php';
+$container[bhubr\MyProjects\Controller\SetupController::class] = function ($c) {
+    $csrf = $c->get('csrf');
+    $view = $c->get('view');
+    $logger = $c->get('logger');
+    $emitter = $c->get('emitter');
+    $flash = $c->get('flash');
+    $sentinel = $c->get('sentinel');
+    return new bhubr\MyProjects\Controller\SetupController($csrf, $view, $logger, $emitter, $flash, $sentinel);
+};
+
+if( !file_exists('../app/bootstrap/db_settings.php') || array_key_exists('_doing_setup', $_SESSION) ) {
+    require '../app/routes/setup.php';
+}
+else {
+    require '../app/routes/auth.php';
+}
+
 
 $app->get('/admin', function($request, $response) {
     $user = $_SESSION['user'];

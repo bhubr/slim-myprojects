@@ -1,5 +1,13 @@
 <?php
-require 'db_settings.php';
+if( file_exists('db_settings.php') ) {
+    require 'db_settings.php';
+}
+else {
+    define('DB_HOST', 'dummy');
+    define('DB_NAME', 'dummy');
+    define('DB_USER', 'dummy');
+    define('DB_PASS', 'dummy');
+}
 
 $container = $app->getContainer();
 
@@ -30,12 +38,12 @@ $container['view'] = function ($container) {
 $container['db'] = function ($container) {
     $capsule = new \Illuminate\Database\Capsule\Manager;
     $capsule->addConnection([
-        'driver' => 'mysql',
-        'host' => DB_HOST,
-        'database' => DB_NAME,
-        'username' => DB_USER,
-        'password' => DB_PASS,
-        'charset' => 'utf8',
+        'driver'    => 'mysql',
+        'host'      => DB_HOST,
+        'database'  => DB_NAME,
+        'username'  => DB_USER,
+        'password'  => DB_PASS,
+        'charset'   => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ]);
     $capsule->setAsGlobal();
