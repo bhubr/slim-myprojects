@@ -1,0 +1,27 @@
+{
+    "require": {
+        "slim/slim": "~3.7",
+        "slim/csrf": "^0.8.1",
+        "slim/twig-view": "^2.1",
+        "kanellov/slim-twig-flash": "^0.1.0",
+        "cartalyst/sentinel": "2.0.13",
+        "illuminate/database": "~5.3",
+        "illuminate/events": "~5.3",
+        "illuminate/support": "^5.3",
+        "illuminate/pagination": "^5.3",
+        "symfony/http-foundation": "^2.7",
+        "ircmaxell/password-compat": "^1.0",
+        "respect/validation": "^1.1.10",
+        "zeuxisoo/slim-whoops": "0.5.*",
+        "robmorgan/phinx": "^0.6.5",
+        "doctrine/inflector": "^1.1"
+    },
+    "autoload": {
+    	"psr-4": {
+    		"bhubr\\HashBack\\": "app/"
+    	}
+    },
+    "require-dev": {
+        "symfony/var-dumper": "~2.6"
+    }
+}
