@@ -195,7 +195,8 @@ class AuthController
         // create a new activation for the registered user
         $activation = (new \Cartalyst\Sentinel\Activations\IlluminateActivationRepository)->create($user);
 
-        //mail($attributes['email'], "Activate your account", "Click on the link below \n <a href='http://vaprobash.dev/user/activate?code={$activation->code}&login={$user->id}'>Activate your account</a>");
+        mail($attributes['email'], "Activate your account", "Click on the link below \n <a href='{$baseUrl}/user/activate?code={$activation->code}&login={$user->id}'>");
+
         $baseUrl = $request->getUri()->getBaseUrl();
         $message = "Welcome, {$user->first_name}! Please check your email to complete your account registration. (or just use this <a href='{$baseUrl}/user/activate?code={$activation->code}&login={$user->id}'>link</a>)";
 
