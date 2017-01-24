@@ -25,4 +25,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', [$container[bhubr\MyProjects\Controller\AuthController::class], 'getSignup']);
 $app->post('/', [$container[bhubr\MyProjects\Controller\AuthController::class], 'postSignup']);
+$app->get('/login', [$container[bhubr\MyProjects\Controller\AuthController::class], 'getSignin']);
+$app->post('/login', [$container[bhubr\MyProjects\Controller\AuthController::class], 'postSignin']);
 $app->get('/user/activate', [$container[bhubr\MyProjects\Controller\AuthController::class], 'activate']);

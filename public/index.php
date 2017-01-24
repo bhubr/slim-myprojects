@@ -33,4 +33,8 @@ $container[bhubr\MyProjects\Controller\AuthController::class] = function ($c) {
 
 require '../app/routes/auth.php';
 
+$app->get('/admin', function($request, $response) {
+    $user = $_SESSION['user'];
+    var_dump($user);
+});
 $app->run();

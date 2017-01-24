@@ -12,6 +12,7 @@ use Sabre\Event\EventEmitter;
 use Slim\Flash\Messages;
 use bhubr\MyProjects\Service\AuthService;
 use Cartalyst\Sentinel\Sentinel;
+use Cartalyst\Sentinel\Users\EloquentUser;
 
 /**
  * Controller for handling user-related stuff:
@@ -80,6 +81,58 @@ class AuthController
      */
     public static function getTemplatePath() {
         return realpath(__DIR__ . '/../templates');
+    }
+
+    /**
+     * Sign in page
+     */
+    public function getSignin(Request $request, Response $response, $args)
+    {
+        // CSRF token name and value
+        $name = $request->getAttribute('csrf_name');
+        $value = $request->getAttribute('csrf_value');
+
+        $this->view->render($response, 'login.html.twig', [
+            'csrfName' => $name,
+            'csrfValue' => $value
+        ]);
+        return $response;
+    }
+
+    /**
+     * Process sign in form
+     */
+    public function postSignin(Request $request, Response $response, $args)
+    {
+        $attributes = $request->getParsedBody();
+        $remember = isset($attributes['remember']) && $attributes['remember'] == 'on' ? true : false;
+        try {
+            if (!$this->sentinel->authenticate([
+                    'email' => $attributes['email'],
+                    'password' => $attributes['password'],
+                ], $remember)) {
+
+                return $response->withStatus(403)->withJson([ 'success' => false, 'error' => 'Invalid email or password.' ]);
+            } else {
+                try {
+                    $user = EloquentUser::where('email', '=', $attributes['email'])->first();
+                    $userAttributes = $user->getAttributes();
+                    unset($userAttributes['password']);
+                    $_SESSION['user'] = $userAttributes;
+                    $payload = [ 'user' => json_encode($userAttributes) ];
+
+                    return $response->withJson($payload);
+                } catch(\Exception $e) {
+                    return $response->withStatus(500)->withJson([ 'success' => false, 'error' => $e->getMessage() ]);
+                }
+            }
+        } catch (Cartalyst\Sentinel\Checkpoints\ThrottlingException $ex) {
+            echo "Too many attempts!";
+            return;
+        } catch (Cartalyst\Sentinel\Checkpoints\NotActivatedException $ex){
+            echo "Please activate your account before trying to log in";
+            return;
+        }
     }
 
     /**
@@ -166,7 +219,6 @@ class AuthController
         if (!$activation)
         {
             echo "Activation error!";
-            
             return;
         }
 
@@ -175,7 +227,6 @@ class AuthController
         if (!$user)
         {
             echo "User not found!";
-            
             return;
         }
 
@@ -185,17 +236,14 @@ class AuthController
             if ($activationRepository->completed($user))
             {
                 echo 'User is already activated. Try to log in.';
-
                 return;
             }
 
             echo "Activation error!";
-            
             return;
         }
 
         echo 'Your account has been activated. Log in to your account.';
-
         return;
     }
 
