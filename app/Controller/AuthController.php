@@ -200,12 +200,11 @@ class AuthController
         // create a new activation for the registered user
         $activation = (new \Cartalyst\Sentinel\Activations\IlluminateActivationRepository)->create($user);
 
+        $baseUrl = $request->getUri()->getBaseUrl();
+
         mail($attributes['email'], "Activate your account", "Click on the link below \n <a href='{$baseUrl}/user/activate?code={$activation->code}&login={$user->id}'>");
 
-        $baseUrl = $request->getUri()->getBaseUrl();
         $message = "Welcome, {$user->first_name}! Please check your email to complete your account registration. (or just use this <a href='{$baseUrl}/user/activate?code={$activation->code}&login={$user->id}'>link</a>)";
-
-
 
         // Otherwise emit signal, sign user in, set success message and redirect
         $this->emitter->emit('user:signin', [$user]);
