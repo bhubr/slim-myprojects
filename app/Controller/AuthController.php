@@ -174,7 +174,7 @@ class AuthController
         }
 
 
-        $role = $this->sentinel->findRoleByName('Admin');
+        // $role = $this->sentinel->findRoleByName('Admin');
 
         if ($this->sentinel->findByCredentials([
             'login' => $attributes['email'],
@@ -195,7 +195,7 @@ class AuthController
         ]);
 
         // attach the user to the admin role
-        $role->users()->attach($user);
+        // $role->users()->attach($user);
 
         // create a new activation for the registered user
         $activation = (new \Cartalyst\Sentinel\Activations\IlluminateActivationRepository)->create($user);

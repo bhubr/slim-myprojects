@@ -124,8 +124,8 @@ class SetupController
         catch( \Exception $e ) {
             switch($e->getCode()) {
                 case 1045:
-                    die('Access denied... check grants for this user and db');
-                    break;
+                    // die('Access denied... check grants for this user and db');
+                    // break;
                 case 1049:
                     // http://stackoverflow.com/questions/2583707/can-i-create-a-database-using-pdo-in-php
                     $rootpass = $data['mysqlrootpass'];
