@@ -3,6 +3,12 @@ require 'db_settings.php';
 
 $container = $app->getContainer();
 
+// Register Flash messages
+$container['flash'] = function () {
+    $session =new \RKA\Session();
+    return new \Slim\Flash\Messages();
+};
+
 // Register Twig
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig( __DIR__.'/../views', [
@@ -36,3 +42,33 @@ $container['db'] = function ($container) {
 $container['sentinel'] = function($container) {
     return (new \Cartalyst\Sentinel\Native\Facades\Sentinel())->getSentinel();
 };
+
+// Register CSRF. https://github.com/slimphp/Slim-Csrf
+$container['csrf'] = function ($c) {
+    return new \Slim\Csrf\Guard;
+};
+
+// Register middleware for all routes
+// If you are implementing per-route checks you must not add this
+$app->add($container->get('csrf'));
+
+// $container['sessionMiddleware'] = function ($c) {
+//     return new \RKA\SessionMiddleware(['name' => 'MyProjectsSession']);
+// };
+// $app->add($container->get('sessionMiddleware'));
+
+// Adding logger to Slim container
+$container['logger'] = function($c) {
+    return new Monolog\Logger('logger');
+};
+
+// Adding Event Emitter to Slim container
+$container['emitter'] = function($c) {
+    return new \Sabre\Event\EventEmitter;
+};
+
+// Middleware that forces Eloquent to be loaded
+$app->add( function($request, $response, $next) use($app) {
+    $db = $app->getContainer()->get('db');
+    return $next($request, $response);
+});

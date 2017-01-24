@@ -2,6 +2,8 @@
 ini_set("display_errors", 1);
 error_reporting(E_ALL);
 
+session_start();
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new \Slim\App([
@@ -17,18 +19,17 @@ $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware);
 // Register bindings
 include_once __DIR__.'/../app/bootstrap/container.php';
 
-// Register routes
-// include_once __DIR__.'/../app/routes_auth.php';
-// include_once __DIR__.'/../app/routes_setup.php';
-// include_once __DIR__.'/../app/routes_admin.php';
-// require_once __DIR__.'/../app/routes_utils.php';
-// require_once __DIR__.'/../app/routes_files.php';
+$container = $app->getContainer();
 
-// Register middlewares
-// $app->add(new \Slim\Csrf\Guard);
+$container[bhubr\MyProjects\Controllers\AuthController::class] = function ($c) {
+    $csrf = $c->get('csrf');
+    $view = $c->get('view');
+    $logger = $c->get('logger');
+    $emitter = $c->get('emitter');
+    $flash = $c->get('flash');
+    return new bhubr\MyProjects\Controllers\AuthController($csrf, $view, $logger, $emitter, $flash);
+};
 
-$app->get('/', function ($request, $response) {
-    return $response->write('Yo');
-});
+require '../app/routes/auth.php';
 
 $app->run();
