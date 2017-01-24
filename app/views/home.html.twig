@@ -2,6 +2,27 @@
 
 {% block content %}
 <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+      {% if flash('success') %}
+      <ul class="alert alert-success">
+        {% for msg in flash('success') %}
+        <li>{{ msg|raw }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {% if flash('error') %}
+      <ul class="alert alert-danger">
+        {% for msg in flash('error') %}
+        <li>{{ msg|raw }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      </div>
+    </div>
+
     <section class="signup_form row">
         <div class="col-md-6 col-md-offset-3">
             <div class="login-panel panel panel-default">

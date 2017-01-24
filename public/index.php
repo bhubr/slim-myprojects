@@ -21,13 +21,14 @@ include_once __DIR__.'/../app/bootstrap/container.php';
 
 $container = $app->getContainer();
 
-$container[bhubr\MyProjects\Controllers\AuthController::class] = function ($c) {
+$container[bhubr\MyProjects\Controller\AuthController::class] = function ($c) {
     $csrf = $c->get('csrf');
     $view = $c->get('view');
     $logger = $c->get('logger');
     $emitter = $c->get('emitter');
     $flash = $c->get('flash');
-    return new bhubr\MyProjects\Controllers\AuthController($csrf, $view, $logger, $emitter, $flash);
+    $sentinel = $c->get('sentinel');
+    return new bhubr\MyProjects\Controller\AuthController($csrf, $view, $logger, $emitter, $flash, $sentinel);
 };
 
 require '../app/routes/auth.php';
